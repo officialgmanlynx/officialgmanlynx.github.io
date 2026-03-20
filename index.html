@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Linear Algebra Academy</title>
+  <!-- Tailwind CDN (instant beautiful styling) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- KaTeX for perfect math rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+  <style>
+    .katex { font-size: 1.1em; }
+    .lesson { display: none; }
+    .lesson.active { display: block; }
+  </style>
+</head>
+<body class="bg-zinc-950 text-zinc-100 flex min-h-screen">
+
+  <!-- Sidebar Navigation (Khan-style) -->
+  <div class="w-72 bg-zinc-900 p-6 flex flex-col">
+    <h1 class="text-3xl font-bold text-emerald-400 mb-8">LA Academy</h1>
+    
+    <div class="mb-8">
+      <div class="text-sm text-zinc-400 mb-2">YOUR PROGRESS</div>
+      <div id="overallProgress" class="h-3 bg-zinc-700 rounded-full overflow-hidden">
+        <div class="h-full bg-emerald-400 w-0 transition-all" id="progressBar"></div>
+      </div>
+      <div id="progressText" class="text-xs text-zinc-400 mt-1">0% complete</div>
+    </div>
+
+    <nav class="flex-1 space-y-1 text-sm" id="chapterList">
+      <!-- Populated by JS -->
+    </nav>
+
+    <button onclick="resetProgress()" 
+            class="mt-auto text-xs text-zinc-500 hover:text-red-400 transition">
+      Reset All Progress
+    </button>
+  </div>
+
+  <!-- Main Content Area -->
+  <div class="flex-1 p-10 overflow-auto" id="mainContent">
+    <h2 id="lessonTitle" class="text-4xl font-bold mb-6"></h2>
+    <div id="lessonBody" class="prose prose-invert max-w-3xl"></div>
+    
+    <!-- Quiz Section (Khan-style immediate feedback) -->
+    <div id="quizContainer" class="mt-12 hidden">
+      <h3 class="text-2xl font-semibold mb-4">Practice Problem</h3>
+      <div id="quizQuestion" class="text-lg mb-6"></div>
+      <div id="quizOptions" class="space-y-3"></div>
+      <div id="quizFeedback" class="mt-6 text-lg font-medium"></div>
+    </div>
+  </div>
+
+<script>
+// ==================== DATA & PROGRESS (localStorage) ====================
+let currentLesson = 0;
+const progressKey = "laProgress";
+let progress = JSON.parse(localStorage.getItem(progressKey)) || {};
+
+// Sample course structure (easy to expand later)
+async function loadCourse() {
+  const response = await fetch('courses/linear-algebra.json');
+  course = await response.json();
+  // then buildNav(), etc.
+}
+
+// Render all KaTeX after content loads
+function renderMath() {
+  renderMathInElement(document.body, {
+    delimiters: [{left: "$$", right: "$$", display: true}, {left: "$", right: "$", display: false}]
+  });
+}
+
+// ==================== BUILD SIDEBAR & LESSONS ====================
+function buildNav() {
+  const nav = document.getElementById("chapterList");
+  nav.innerHTML = "";
+  course.chapters.forEach((ch, i) => {
+    const div = document.createElement("div");
+    div.className = "mb-6";
+    div.innerHTML = `
+      <div class="font-medium text-emerald-300 mb-2">${ch.title}</div>
+      ${ch.lessons.map((les, j) => `
+        <button onclick="loadLesson(${i},${j})" 
+                class="w-full text-left px-4 py-2 hover:bg-zinc-800 rounded-lg transition flex justify-between items-center ${progress[`${i}-${j}`] ? 'line-through text-emerald-400' : ''}">
+          ${les.title}
+          ${progress[`${i}-${j}`] ? '✅' : ''}
+        </button>`).join("")}
+    `;
+    nav.appendChild(div);
+  });
+}
+
+function updateProgressBar() {
+  const total = course.chapters.reduce((sum, ch) => sum + ch.lessons.length, 0);
+  const done = Object.keys(progress).length;
+  const percent = Math.round((done / total) * 100);
+  document.getElementById("progressBar").style.width = percent + "%";
+  document.getElementById("progressText").textContent = percent + "% complete";
+}
+
+// ==================== LOAD LESSON + QUIZ ====================
+function loadLesson(chIdx, lesIdx) {
+  currentLesson = `${chIdx}-${lesIdx}`;
+  const lesson = course.chapters[chIdx].lessons[lesIdx];
+  
+  document.getElementById("lessonTitle").textContent = lesson.title;
+  document.getElementById("lessonBody").innerHTML = lesson.body;
+  
+  // Show quiz if present
+  const quizDiv = document.getElementById("quizContainer");
+  if (lesson.quiz) {
+    quizDiv.classList.remove("hidden");
+    document.getElementById("quizQuestion").innerHTML = lesson.quiz.q;
+    const opts = document.getElementById("quizOptions");
+    opts.innerHTML = lesson.quiz.options.map((opt, i) => `
+      <button onclick="checkAnswer(${i})" 
+              class="w-full text-left px-6 py-4 bg-zinc-800 hover:bg-zinc-700 rounded-xl transition">
+        ${opt}
+      </button>`).join("");
+    document.getElementById("quizFeedback").innerHTML = "";
+  } else {
+    quizDiv.classList.add("hidden");
+  }
+  
+  renderMath();
+  // Auto-save completion when lesson loads
+  progress[currentLesson] = true;
+  localStorage.setItem(progressKey, JSON.stringify(progress));
+  buildNav();
+  updateProgressBar();
+}
+
+// Quiz answer check (Khan-style instant feedback)
+function checkAnswer(selected) {
+  const lesson = course.chapters[Math.floor(currentLesson.split("-")[0])].lessons[Math.floor(currentLesson.split("-")[1])];
+  const correct = lesson.quiz.ans;
+  const feedback = document.getElementById("quizFeedback");
+  
+  if (selected === correct) {
+    feedback.innerHTML = `<span class="text-emerald-400">✅ Correct! Well done.</span>`;
+    // Save mastery
+    progress[currentLesson + "-mastered"] = true;
+  } else {
+    feedback.innerHTML = `<span class="text-red-400">Not quite. The correct answer was ${lesson.quiz.options[correct]}.</span>`;
+  }
+  localStorage.setItem(progressKey, JSON.stringify(progress));
+  buildNav();
+}
+
+function resetProgress() {
+  if (confirm("Reset ALL progress?")) {
+    localStorage.removeItem(progressKey);
+    progress = {};
+    buildNav();
+    updateProgressBar();
+  }
+}
+
+// ==================== INITIALIZE ====================
+window.onload = () => {
+  tailwind.config = { content: ["*"] }; // instant Tailwind
+  buildNav();
+  updateProgressBar();
+  // Load first lesson automatically
+  loadLesson(0, 0);
+};
+</script>
+</body>
+</html>

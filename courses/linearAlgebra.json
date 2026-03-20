@@ -1,0 +1,364 @@
+{
+  "title": "Linear Algebra",
+  "chapters": [
+    {
+      "id": 0,
+      "title": "0. Welcome & Vectors",
+      "lessons": [
+        {
+          "id": 0,
+          "title": "What is Linear Algebra?",
+          "body": "<p class=\"mb-6\">Linear algebra is the study of vectors, matrices, and linear transformations.</p>\n<div id=\"vecExample\"></div>\n<p class=\"mt-6\">A vector in \\(\\mathbb{R}^2\\):</p>\n<div id=\"vecKatex\"></div>",
+          "quiz": null
+        },
+        {
+          "id": 1,
+          "title": "Vector Addition & Scalar Multiplication",
+          "body": "<p>Try the interactive canvas below (we'll add it next).</p>",
+          "quiz": {
+            "q": "What is \\(2\\vec{v}\\) if \\(\\vec{v} = \\begin{pmatrix} 1 \\\\ 3 \\end{pmatrix}\\)?",
+            "options": ["\\((2,6)\\)", "\\((3,1)\\)", "\\((1,3)\\)"],
+            "ans": 0
+          }
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "title": "1. The Geometry of Linear Equations",
+      "lessons": [
+        {
+          "id": 0,
+          "title": "Lines and Planes in \\(\\mathbb{R}^n\\)",
+          "body": "<p>Visualize linear equations as intersections of lines (2 eqs) or planes (3 eqs).</p>\n<p>Example: \\(x + 2y = 5\\) is a line in \\(\\mathbb{R}^2\\).</p>",
+          "quiz": null
+        },
+        {
+          "id": 1,
+          "title": "Geometric Solutions to Ax = b",
+          "body": "<p>The solution is the intersection point of the rows interpreted as hyperplanes.</p>",
+          "quiz": {
+            "q": "How many solutions does a consistent system of 2 equations in 2 variables usually have?",
+            "options": ["0", "1", "Infinitely many"],
+            "ans": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "2. Elimination with Matrices",
+      "lessons": [
+        {
+          "id": 0,
+          "title": "Gaussian Elimination Process",
+          "body": "<p>Forward elimination turns A into upper triangular U using row operations.</p>\n<p>Pivot → eliminate below.</p>",
+          "quiz": null
+        },
+        {
+          "id": 1,
+          "title": "Augmented Matrix and Row Reduction",
+          "body": "<p>Example: Solve using augmented matrix \\([A | b]\\).</p>",
+          "quiz": {
+            "q": "What is the first step in Gaussian elimination?",
+            "options": ["Back substitution", "Find a pivot", "Swap rows randomly"],
+            "ans": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "3. Matrix Operations and Inverses",
+      "lessons": [
+        {
+          "id": 0,
+          "title": "Matrix Addition, Multiplication, Powers",
+          "body": "<p>AB means columns of B transformed by A.</p>",
+          "quiz": null
+        },
+        {
+          "id": 1,
+          "title": "Invertible Matrices and Inverse Computation",
+          "body": "<p>A is invertible if \\(\\det(A) \\neq 0\\) and full rank.</p>",
+          "quiz": {
+            "q": "If A is invertible, then Ax = b has how many solutions?",
+            "options": ["None", "Exactly one", "Infinitely many"],
+            "ans": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "title": "4. LU and LDU Factorization",
+      "lessons": [
+        {
+          "id": 0,
+          "title": "LU Decomposition Basics",
+          "body": "<p>A = LU where L lower triangular (1's on diagonal), U upper.</p>",
+          "quiz": null
+        },
+        {
+          "id": 1,
+          "title": "Solving Systems with LU",
+          "body": "<p>Lc = b → Ux = c (forward + back substitution).</p>",
+          "quiz": null
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "title": "5. Transposes and Permutations",
+      "lessons": [
+        {
+          "id": 0,
+          "title": "Transpose Properties (A^T)^T = A, (AB)^T = B^T A^T",
+          "body": "<p>Symmetric matrices: A = A^T.</p>",
+          "quiz": null
+        },
+        {
+          "id": 1,
+          "title": "Permutation Matrices and PA = LU",
+          "body": "<p>Row exchanges = multiplication by permutation matrix P.</p>",
+          "quiz": null
+        },
+        {
+          "id": 2,
+          "title": "Problem Set 1 Review",
+          "body": "<p>Review problems from Chapters 1–5. Due this week.</p>",
+          "quiz": null
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "title": "6. Vector Spaces and Subspaces",
+      "lessons": [
+        {
+          "id": 0,
+          "title": "Definition and Examples of Vector Spaces",
+          "body": "<p>Subspaces must be closed under addition and scalar multiplication.</p>",
+          "quiz": null
+        },
+        {
+          "id": 1,
+          "title": "Column Space, Nullspace, Row Space",
+          "body": "<p>Col(A), Nul(A), Row(A) = Col(A^T).</p>",
+          "quiz": null
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "title": "7. The Nullspace: Solving Ax = 0",
+      "lessons": [
+        {
+          "id": 0,
+          "title": "Special Solutions and Free Variables",
+          "body": "<p>Nullspace = all solutions to homogeneous equation.</p>",
+          "quiz": null
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "title": "8. Rectangular PA = LU and Ax = b",
+      "lessons": [
+        {
+          "id": 0,
+          "title": "Least Squares via Normal Equations",
+          "body": "<p>For overdetermined systems: A^T A \\hat{x} = A^T b.</p>",
+          "quiz": null
+        },
+        {
+          "id": 1,
+          "title": "Problem Set 2 Review",
+          "body": "<p>Practice rectangular systems and projections. Due.</p>",
+          "quiz": null
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "title": "9. Row Reduced Echelon Form",
+      "lessons": []
+    },
+    {
+      "id": 10,
+      "title": "10. Basis and Dimension",
+      "lessons": []
+    },
+    {
+      "id": 11,
+      "title": "11. The Four Fundamental Subspaces",
+      "lessons": []
+    },
+    {
+      "id": 12,
+      "title": "12. Exam 1: Chapters 1 to 3.4",
+      "lessons": [
+        {
+          "id": 0,
+          "title": "Exam Review & Practice",
+          "body": "<p>Review key concepts from early chapters. Practice problems recommended.</p>",
+          "quiz": null
+        }
+      ]
+    },
+    {
+      "id": 13,
+      "title": "13. Graphs and Networks",
+      "lessons": []
+    },
+    {
+      "id": 14,
+      "title": "14. Orthogonality",
+      "lessons": []
+    },
+    {
+      "id": 15,
+      "title": "15. Projections and Subspaces",
+      "lessons": []
+    },
+    {
+      "id": 16,
+      "title": "16. Least Squares Approximations",
+      "lessons": []
+    },
+    {
+      "id": 17,
+      "title": "17. Gram-Schmidt and A = QR",
+      "lessons": []
+    },
+    {
+      "id": 18,
+      "title": "18. Properties of Determinants",
+      "lessons": []
+    },
+    {
+      "id": 19,
+      "title": "19. Formulas for Determinants",
+      "lessons": []
+    },
+    {
+      "id": 20,
+      "title": "20. Applications of Determinants",
+      "lessons": []
+    },
+    {
+      "id": 21,
+      "title": "21. Eigenvalues and Eigenvectors",
+      "lessons": []
+    },
+    {
+      "id": 22,
+      "title": "22. Diagonalization",
+      "lessons": []
+    },
+    {
+      "id": 23,
+      "title": "23. Markov Matrices",
+      "lessons": []
+    },
+    {
+      "id": 24,
+      "title": "24. Review for Exam 2",
+      "lessons": []
+    },
+    {
+      "id": 25,
+      "title": "25. Exam 2: Chapters 1-5, 6.1-6.2, 8.2",
+      "lessons": []
+    },
+    {
+      "id": 26,
+      "title": "26. Differential Equations",
+      "lessons": []
+    },
+    {
+      "id": 27,
+      "title": "27. Symmetric Matrices",
+      "lessons": []
+    },
+    {
+      "id": 28,
+      "title": "28. Positive Definite Matrices",
+      "lessons": []
+    },
+    {
+      "id": 29,
+      "title": "29. Matrices in Engineering",
+      "lessons": []
+    },
+    {
+      "id": 30,
+      "title": "30. Similar Matrices",
+      "lessons": []
+    },
+    {
+      "id": 31,
+      "title": "31. Singular Value Decomposition",
+      "lessons": []
+    },
+    {
+      "id": 32,
+      "title": "32. Fourier Series, FFT, Complex Matrices",
+      "lessons": []
+    },
+    {
+      "id": 33,
+      "title": "33. Linear Transformations",
+      "lessons": []
+    },
+    {
+      "id": 34,
+      "title": "34. Choice of Basis",
+      "lessons": []
+    },
+    {
+      "id": 35,
+      "title": "35. Linear Programming",
+      "lessons": []
+    },
+    {
+      "id": 36,
+      "title": "36. Course Review",
+      "lessons": []
+    },
+    {
+      "id": 37,
+      "title": "37. Exam 3: Chapters 1-8 (8.1, 2, 3, 5)",
+      "lessons": []
+    },
+    {
+      "id": 38,
+      "title": "38. Numerical Linear Algebra",
+      "lessons": []
+    },
+    {
+      "id": 39,
+      "title": "39. Computational Science",
+      "lessons": [
+        {
+          "id": 0,
+          "title": "Applications in Data, ML, Physics",
+          "body": "<p>Linear algebra powers PCA, neural nets, finite elements, etc.</p>",
+          "quiz": null
+        }
+      ]
+    },
+    {
+      "id": 40,
+      "title": "40. Final Exam",
+      "lessons": [
+        {
+          "id": 0,
+          "title": "Comprehensive Review & Practice Exam",
+          "body": "<p>Review all chapters. Good luck on the final!</p>",
+          "quiz": null
+        }
+      ]
+    }
+  ]
+}
