@@ -64,8 +64,8 @@ let course = null;
 // ==================== LOAD COURSE ====================
 async function loadCourse() {
   try {
-    console.log("Starting fetch for courses/linear-algebra.json...");
-    const response = await fetch('courses/linear-algebra.json');
+    console.log("Starting fetch for courses/linearAlgebra.json...");
+    const response = await fetch('courses/linearAlgebra.json');
     if (!response.ok) {
       throw new Error(`Fetch error: ${response.status} ${response.statusText}`);
     }
@@ -83,7 +83,7 @@ async function loadCourse() {
       <h2 class="text-4xl font-bold text-red-400 mb-6">Course Data Failed to Load</h2>
       <p class="text-lg">${error.message}</p>
       <p class="mt-4">
-        • Direct link test: <a href="/courses/linear-algebra.json" target="_blank" class="text-emerald-400 underline">Open JSON</a><br>
+        • Direct link test: <a href="/courses/linearAlgebra.json" target="_blank" class="text-emerald-400 underline">Open JSON</a><br>
         • If blank/404: wait 5-15 min after push, clear cache (Ctrl+Shift+R), check case sensitivity<br>
         • Console (F12) for details
       </p>
