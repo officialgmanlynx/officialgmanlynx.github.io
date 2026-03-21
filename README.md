@@ -1,2 +1,2 @@
 # officialgmanlynx.github.io
-My website
+My website is a project I made to help me better understand the subject I'm interested in. Given the many online resource that were freely available to me I wanted to compile all of my notes into a single area which eventually led from my obsidian vault to this. In spirit of the Feynman method I am using it to complete the last phase of learning, teaching, such that I can feel confident in my knowledge of the materials and also give back to the community. I hope future generations will be able to utalize this resource freely and it will help them in their lives.
