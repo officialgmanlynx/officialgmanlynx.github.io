@@ -1,0 +1,46 @@
+{
+  "subjects": [
+    {
+      "name": "Mathematics",
+      "id": "math",
+      "courses": [
+        {
+          "id": "linear-algebra",
+          "title": "Linear Algebra"
+        },
+        {
+          "id": "calculus1",
+          "title": "Theoretical & Applied Calculus for Engineers and Scientists I"
+        },
+        {
+          "id": "calculus2",
+          "title": "Theoretical & Applied Calculus for Engineers and Scientists II"
+        },
+        {
+          "id": "calculus3",
+          "title": "Theoretical & Applied Calculus for Engineers and Scientists III"
+        }
+      ]
+    },
+    {
+      "name": "Physics",
+      "id": "physics",
+      "courses": [
+        {
+          "id": "physics1",
+          "title": "Physics I: Introductory Mechanics"
+        }
+      ]
+    },
+    {
+      "name": "Chemistry",
+      "id": "chemistry",
+      "courses": [
+        {
+          "id": "gen-chem1",
+          "title": "General Chemistry I"
+        }
+      ]
+    }
+  ]
+}

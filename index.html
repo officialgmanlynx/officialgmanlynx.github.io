@@ -3,26 +3,28 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Linear Algebra Academy</title>
-  <!-- Tailwind CDN (instant beautiful styling) -->
+  <title>Quantum Teach π</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- KaTeX for perfect math rendering -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
   <script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
   <style>
     .katex { font-size: 1.1em; }
-    .lesson { display: none; }
-    .lesson.active { display: block; }
   </style>
 </head>
 <body class="bg-zinc-950 text-zinc-100 flex min-h-screen">
 
-  <!-- Sidebar Navigation (Khan-style) -->
+  <!-- Sidebar -->
   <div class="w-72 bg-zinc-900 p-6 flex flex-col">
-    <h1 class="text-3xl font-bold text-emerald-400 mb-8">LA Academy</h1>
-    
-    <div class="mb-8">
+    <h1 class="text-3xl font-bold text-emerald-400 mb-8">Quantum Teach π</h1>
+
+    <!-- Subject + Course Accordion -->
+    <div class="mb-8 space-y-4" id="subjectsContainer">
+      <!-- Dynamically populated by JS -->
+    </div>
+
+    <!-- Progress -->
+    <div class="mb-8 hidden" id="progressSection">
       <div class="text-sm text-zinc-400 mb-2">YOUR PROGRESS</div>
       <div id="overallProgress" class="h-3 bg-zinc-700 rounded-full overflow-hidden">
         <div class="h-full bg-emerald-400 w-0 transition-all" id="progressBar"></div>
@@ -30,139 +32,158 @@
       <div id="progressText" class="text-xs text-zinc-400 mt-1">0% complete</div>
     </div>
 
-    <nav class="flex-1 space-y-1 text-sm" id="chapterList">
-      <!-- Populated by JS -->
-    </nav>
+    <!-- Chapters / Lessons -->
+    <nav class="flex-1 space-y-1 text-sm overflow-y-auto" id="chapterList"></nav>
 
-    <button onclick="resetProgress()" 
-            class="mt-auto text-xs text-zinc-500 hover:text-red-400 transition">
-      Reset All Progress
+    <button onclick="resetProgress()" class="mt-auto text-xs text-zinc-500 hover:text-red-400 transition">
+      Reset Progress (current course)
     </button>
   </div>
 
-  <!-- Main Content Area -->
+  <!-- Main Content -->
   <div class="flex-1 p-10 overflow-auto" id="mainContent">
-    <h2 id="lessonTitle" class="text-4xl font-bold mb-6"></h2>
-    <div id="lessonBody" class="prose prose-invert max-w-3xl"></div>
-    
-    <!-- Quiz Section (Khan-style immediate feedback) -->
-    <div id="quizContainer" class="mt-12 hidden">
-      <h3 class="text-2xl font-semibold mb-4">Practice Problem</h3>
-      <div id="quizQuestion" class="text-lg mb-6"></div>
-      <div id="quizOptions" class="space-y-3"></div>
-      <div id="quizFeedback" class="mt-6 text-lg font-medium"></div>
+    <div id="welcome" class="text-center py-20">
+      <h2 class="text-5xl font-bold text-emerald-400 mb-6">Welcome to Quantum Teach π</h2>
+      <p class="text-xl text-zinc-300 max-w-2xl mx-auto">
+        Choose a subject and course from the sidebar to start learning.
+      </p>
+    </div>
+
+    <div id="lessonArea" style="display: none;">
+      <h2 id="lessonTitle" class="text-4xl font-bold mb-6"></h2>
+      <div id="lessonBody" class="prose prose-invert max-w-3xl"></div>
+
+      <div id="quizContainer" class="mt-12 hidden">
+        <h3 class="text-2xl font-semibold mb-4">Practice Problem</h3>
+        <div id="quizQuestion" class="text-lg mb-6"></div>
+        <div id="quizOptions" class="space-y-3"></div>
+        <div id="quizFeedback" class="mt-6 text-lg font-medium"></div>
+      </div>
     </div>
   </div>
 
 <script>
-// ==================== DATA & PROGRESS ====================
-let currentLesson = "0-0";
-const progressKey = "laProgress";
-let progress = JSON.parse(localStorage.getItem(progressKey)) || {};
-let course = null;
+// Global state
+let currentCourseKey = null;
+let currentCourse = null;
+let currentLesson = null;
 
-// ==================== LOAD COURSE ====================
-async function loadCourse() {
+// Progress key per course
+function getProgressKey(courseId) {
+  return `qt-${courseId}`;
+}
+
+// Toggle subject accordion
+function toggleSubject(subject) {
+  const el = document.getElementById(`${subject}-courses`);
+  el.classList.toggle('hidden');
+}
+
+// Load a course by ID
+async function loadCourse(courseId) {
+  if (!courseId) {
+    document.getElementById("welcome").style.display = "block";
+    document.getElementById("lessonArea").style.display = "none";
+    document.getElementById("progressSection").classList.add("hidden");
+    document.getElementById("chapterList").innerHTML = "";
+    currentCourse = null;
+    currentCourseKey = null;
+    return;
+  }
+
   try {
-    console.log("Starting fetch for courses/linearAlgebra.json...");
-    const response = await fetch('courses/linearAlgebra.json');
-    if (!response.ok) {
-      throw new Error(`Fetch error: ${response.status} ${response.statusText}`);
-    }
-    course = await response.json();
-    console.log("JSON loaded successfully!");
-    console.log("Title:", course.title);
-    console.log("Chapters count:", course.chapters?.length || 0);
+    const response = await fetch(`courses/${courseId}.json`);
+    if (!response.ok) throw new Error(`Failed to load ${courseId}`);
+    currentCourse = await response.json();
+    currentCourseKey = courseId;
+
+    // Remember last course
+    localStorage.setItem("qt-last-course", courseId);
+
+    // Show content
+    document.getElementById("welcome").style.display = "none";
+    document.getElementById("lessonArea").style.display = "block";
+    document.getElementById("progressSection").classList.remove("hidden");
 
     buildNav();
     updateProgressBar();
-    loadLesson(0, 0); // safe if chapter 0 exists
-  } catch (error) {
-    console.error("Load failed:", error);
+    loadLesson(0, 0);
+  } catch (err) {
+    console.error(err);
     document.getElementById("mainContent").innerHTML = `
-      <h2 class="text-4xl font-bold text-red-400 mb-6">Course Data Failed to Load</h2>
-      <p class="text-lg">${error.message}</p>
-      <p class="mt-4">
-        • Direct link test: <a href="/courses/linearAlgebra.json" target="_blank" class="text-emerald-400 underline">Open JSON</a><br>
-        • If blank/404: wait 5-15 min after push, clear cache (Ctrl+Shift+R), check case sensitivity<br>
-        • Console (F12) for details
-      </p>
+      <h2 class="text-4xl font-bold text-red-400 mb-6">Failed to Load Course</h2>
+      <p class="text-lg">${err.message}</p>
+      <p class="mt-4">Check console (F12) and make sure courses/${courseId}.json exists.</p>
     `;
   }
 }
 
-// ==================== MATH ====================
-function renderMath() {
-  renderMathInElement(document.body, {
-    delimiters: [
-      {left: "$$", right: "$$", display: true},
-      {left: "$", right: "$", display: false}
-    ]
-  });
-}
-
-// ==================== NAVIGATION ====================
+// Build sidebar navigation
 function buildNav() {
-  if (!course || !course.chapters) {
-    console.warn("No course data for nav");
-    return;
-  }
+  if (!currentCourse) return;
   const nav = document.getElementById("chapterList");
   nav.innerHTML = "";
-  course.chapters.forEach((ch, i) => {
+  currentCourse.chapters.forEach((ch, i) => {
     const div = document.createElement("div");
     div.className = "mb-6";
-
-    let lessonsHtml = "";
-    if (ch.lessons && ch.lessons.length > 0) {
-      lessonsHtml = ch.lessons.map((les, j) => `
-        <button onclick="loadLesson(${i},${j})"
-                class="w-full text-left px-4 py-2 hover:bg-zinc-800 rounded-lg transition flex justify-between items-center ${progress[`${i}-${j}`] ? 'line-through text-emerald-400' : ''}">
-          ${les.title || "Untitled Lesson"}
-          ${progress[`${i}-${j}`] ? '✅' : ''}
-        </button>
-      `).join("");
-    } else {
-      lessonsHtml = '<p class="text-zinc-500 px-4 py-2 italic">No lessons added yet</p>';
-    }
+    let lessonsHtml = ch.lessons?.length > 0
+      ? ch.lessons.map((les, j) => `
+          <button onclick="loadLesson(${i},${j})"
+                  class="w-full text-left px-4 py-2 hover:bg-zinc-800 rounded-lg transition flex justify-between items-center ${isLessonCompleted(i,j) ? 'line-through text-emerald-400' : ''}">
+            ${les.title || `Lesson ${j+1}`}
+            ${isLessonCompleted(i,j) ? '✅' : ''}
+          </button>
+        `).join("")
+      : '<p class="text-zinc-500 px-4 py-2 italic">Coming soon</p>';
 
     div.innerHTML = `
-      <div class="font-medium text-emerald-300 mb-2">${ch.title || "Untitled Chapter"}</div>
+      <div class="font-medium text-emerald-300 mb-2">${ch.title || `Chapter ${i+1}`}</div>
       ${lessonsHtml}
     `;
     nav.appendChild(div);
   });
-  console.log("Sidebar navigation built");
 }
 
-// ==================== PROGRESS BAR ====================
+// Progress helpers
+function getProgress() {
+  if (!currentCourseKey) return {};
+  return JSON.parse(localStorage.getItem(getProgressKey(currentCourseKey))) || {};
+}
+
+function saveProgress(prog) {
+  if (!currentCourseKey) return;
+  localStorage.setItem(getProgressKey(currentCourseKey), JSON.stringify(prog));
+}
+
+function isLessonCompleted(ch, les) {
+  return !!getProgress()[`${ch}-${les}`];
+}
+
+// Progress bar
 function updateProgressBar() {
-  if (!course || !course.chapters) return;
-  const total = course.chapters.reduce((sum, ch) => sum + (ch.lessons?.length || 0), 0);
-  const done = Object.keys(progress).filter(k => !k.endsWith("-mastered")).length;
+  if (!currentCourse) return;
+  const total = currentCourse.chapters.reduce((sum, ch) => sum + (ch.lessons?.length || 0), 0);
+  const done = Object.keys(getProgress()).filter(k => !k.endsWith("-mastered")).length;
   const percent = total > 0 ? Math.round((done / total) * 100) : 0;
   document.getElementById("progressBar").style.width = percent + "%";
   document.getElementById("progressText").textContent = percent + "% complete";
 }
 
-// ==================== LOAD LESSON ====================
+// Load lesson
 function loadLesson(chIdx, lesIdx) {
-  if (!course || !course.chapters?.[chIdx]?.lessons?.[lesIdx]) {
-    console.warn("Invalid lesson index:", chIdx, lesIdx);
-    return;
-  }
+  if (!currentCourse) return;
   currentLesson = `${chIdx}-${lesIdx}`;
-  const lesson = course.chapters[chIdx].lessons[lesIdx];
+  const lesson = currentCourse.chapters[chIdx]?.lessons?.[lesIdx];
+  if (!lesson) return;
 
-  document.getElementById("lessonTitle").textContent = lesson.title || "No Title";
+  document.getElementById("lessonTitle").textContent = lesson.title || "Lesson";
   document.getElementById("lessonBody").innerHTML = lesson.body || "<p>No content yet.</p>";
 
   const quizDiv = document.getElementById("quizContainer");
-  if (lesson.quiz && lesson.quiz.options && lesson.quiz.ans != null) {
+  if (lesson.quiz) {
     quizDiv.classList.remove("hidden");
-    document.getElementById("quizQuestion").innerHTML = lesson.quiz.q || "Question missing";
-    const opts = document.getElementById("quizOptions");
-    opts.innerHTML = lesson.quiz.options.map((opt, i) => `
+    document.getElementById("quizQuestion").innerHTML = lesson.quiz.q;
+    document.getElementById("quizOptions").innerHTML = lesson.quiz.options.map((opt, i) => `
       <button onclick="checkAnswer(${i})" class="w-full text-left px-6 py-4 bg-zinc-800 hover:bg-zinc-700 rounded-xl transition">
         ${opt}
       </button>
@@ -174,45 +195,105 @@ function loadLesson(chIdx, lesIdx) {
 
   renderMath();
 
-  progress[currentLesson] = true;
-  localStorage.setItem(progressKey, JSON.stringify(progress));
+  const prog = getProgress();
+  prog[currentLesson] = true;
+  saveProgress(prog);
   buildNav();
   updateProgressBar();
 }
 
-// ==================== QUIZ ====================
+// Check quiz answer
 function checkAnswer(selected) {
-  if (!course) return;
-  const [chIdx, lesIdx] = currentLesson.split("-").map(Number);
-  const lesson = course.chapters[chIdx]?.lessons?.[lesIdx];
+  if (!currentCourse || !currentLesson) return;
+  const [ch, les] = currentLesson.split("-").map(Number);
+  const lesson = currentCourse.chapters[ch]?.lessons?.[les];
   if (!lesson?.quiz) return;
 
   const correct = lesson.quiz.ans;
   const feedback = document.getElementById("quizFeedback");
 
   if (selected === correct) {
-    feedback.innerHTML = `<span class="text-emerald-400">✅ Correct!</span>`;
-    progress[currentLesson + "-mastered"] = true;
+    feedback.innerHTML = `<span class="text-emerald-400">Correct! Well done.</span>`;
+    const prog = getProgress();
+    prog[currentLesson + "-mastered"] = true;
+    saveProgress(prog);
   } else {
-    feedback.innerHTML = `<span class="text-red-400">Incorrect. Correct: ${lesson.quiz.options[correct]}</span>`;
+    feedback.innerHTML = `<span class="text-red-400">Incorrect. The answer is ${lesson.quiz.options[correct]}</span>`;
   }
-  localStorage.setItem(progressKey, JSON.stringify(progress));
   buildNav();
 }
 
+// Reset current course progress
 function resetProgress() {
-  if (confirm("Reset all progress?")) {
-    localStorage.removeItem(progressKey);
-    progress = {};
-    buildNav();
-    updateProgressBar();
+  if (!currentCourseKey || !confirm("Reset progress for this course?")) return;
+  localStorage.removeItem(getProgressKey(currentCourseKey));
+  buildNav();
+  updateProgressBar();
+}
+
+// Render math
+function renderMath() {
+  renderMathInElement(document.body, {
+    delimiters: [
+      {left: "$$", right: "$$", display: true},
+      {left: "$", right: "$", display: false}
+    ]
+  });
+}
+
+// ────────────────────────────────────────────────
+// Load subjects & courses from JSON
+// ────────────────────────────────────────────────
+async function loadSubjects() {
+  try {
+    const response = await fetch('courses/subjects.json');
+    if (!response.ok) throw new Error("Failed to load subjects.json");
+    const data = await response.json();
+
+    const container = document.getElementById("subjectsContainer");
+    container.innerHTML = "";
+
+    data.subjects.forEach(subject => {
+      const subjectDiv = document.createElement("div");
+      subjectDiv.className = "border-b border-zinc-700 pb-2";
+
+      subjectDiv.innerHTML = `
+        <button class="w-full text-left flex justify-between items-center text-lg font-medium text-emerald-300 hover:text-emerald-400" onclick="toggleSubject('${subject.id}')">
+          ${subject.name}
+          <span class="text-sm transition-transform">▼</span>
+        </button>
+        <div id="${subject.id}-courses" class="mt-2 pl-4 space-y-1 hidden">
+          ${subject.courses.map(course => `
+            <button onclick="loadCourse('${course.id}')" class="w-full text-left px-3 py-1.5 hover:bg-zinc-800 rounded">
+              ${course.title}
+            </button>
+          `).join("")}
+        </div>
+      `;
+
+      container.appendChild(subjectDiv);
+    });
+
+    console.log("Subjects loaded:", data.subjects.length);
+  } catch (err) {
+    console.error("Subjects load failed:", err);
+    document.getElementById("subjectsContainer").innerHTML = `
+      <p class="text-red-400">Failed to load subjects/courses list</p>
+    `;
   }
 }
 
-// ==================== INIT ====================
+// Update onload to load subjects first
 window.onload = () => {
   tailwind.config = { content: ["*"] };
-  loadCourse();  // everything starts here
+
+  loadSubjects();  // ← new: builds the accordion from JSON
+
+  // Auto-load last course if exists
+  const lastCourse = localStorage.getItem("qt-last-course");
+  if (lastCourse) {
+    loadCourse(lastCourse);
+  }
 };
 </script>
 </body>
