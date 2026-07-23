@@ -1,6 +1,17 @@
 {
   "subjects": [
     {
+      "name": "Cyber Security",
+      "id": "cyber".
+      "courses": [
+        {
+          "id": "bandit",
+          "title": "Bandit"
+        }
+      ]
+      
+    },
+    {
       "name": "Mathematics",
       "id": "math",
       "courses": [
