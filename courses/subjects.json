@@ -2,7 +2,7 @@
   "subjects": [
     {
       "name": "Cyber Security",
-      "id": "cyber".
+      "id": "cyber",
       "courses": [
         {
           "id": "bandit",
