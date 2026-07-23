@@ -5,7 +5,7 @@
       "id": "math",
       "courses": [
         {
-          "id": "linear-algebra",
+          "id": "linearAlgebra",
           "title": "Linear Algebra"
         },
         {
