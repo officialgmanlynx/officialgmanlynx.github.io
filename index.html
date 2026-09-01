@@ -3,39 +3,112 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Name | Portfolio</title>
+    <title>SYSTEM://PORTFOLIO</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&display=swap');
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #0f172a;
-            color: #e2e8f0;
-            min-height: 100vh;
+        :root {
+            --neon-green: #39ff14;
+            --neon-cyan: #00fff9;
+            --neon-magenta: #ff00ff;
+            --amber: #ffb000;
+            --bg-dark: #0a0a0f;
+            --bg-panel: #111118;
+            --bg-card: #0d0d14;
+            --border-dim: #1a2a1a;
+            --text-dim: #4a6a4a;
+            --text-mid: #7a9a7a;
+            --text-bright: #c0ffc0;
         }
 
-        /* ── Navigation Tabs ── */
+        body {
+            font-family: 'Share Tech Mono', monospace;
+            background-color: var(--bg-dark);
+            color: var(--text-bright);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* ── CRT Scanline Overlay ── */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 2px,
+                rgba(0, 0, 0, 0.15) 2px,
+                rgba(0, 0, 0, 0.15) 4px
+            );
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        /* ── Vignette ── */
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(ellipse at center, transparent 50%, rgba(0,0,0,0.6) 100%);
+            pointer-events: none;
+            z-index: 9998;
+        }
+
+        /* ── Noise / Grain ── */
+        .noise {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.03;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 9997;
+        }
+
+        /* ── Navigation ── */
         nav {
-            background-color: #1e293b;
+            background: linear-gradient(180deg, #0a0f0a 0%, #060a06 100%);
+            border-bottom: 1px solid var(--neon-green);
+            box-shadow: 0 0 20px rgba(57, 255, 20, 0.1), inset 0 -1px 0 rgba(57, 255, 20, 0.3);
             padding: 0 2rem;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
             position: sticky;
             top: 0;
             z-index: 100;
+            clip-path: polygon(0 0, 100% 0, 100% calc(100% - 8px), calc(100% - 20px) 100%, 20px 100%, 0 calc(100% - 8px));
         }
 
         .logo {
-            font-size: 1.4rem;
-            font-weight: 700;
-            color: #38bdf8;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 900;
+            color: var(--neon-green);
             padding: 1rem 0;
+            text-shadow: 0 0 10px rgba(57, 255, 20, 0.5);
+            letter-spacing: 2px;
+        }
+
+        .logo::before {
+            content: '⚡ ';
+            color: var(--amber);
         }
 
         .tabs {
@@ -46,108 +119,292 @@
 
         .tabs li a {
             display: block;
-            padding: 1.2rem 1.5rem;
-            color: #94a3b8;
+            padding: 1.2rem 1.2rem;
+            color: var(--text-dim);
             text-decoration: none;
-            font-weight: 500;
-            font-size: 0.95rem;
-            transition: color 0.2s, background 0.2s;
-            border-bottom: 3px solid transparent;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.2s;
+            border-bottom: 2px solid transparent;
+            position: relative;
+        }
+
+        .tabs li a::before {
+            content: '[ ';
+            color: var(--text-dim);
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+
+        .tabs li a::after {
+            content: ' ]';
+            color: var(--text-dim);
+            opacity: 0;
+            transition: opacity 0.2s;
         }
 
         .tabs li a:hover,
         .tabs li a.active {
-            color: #38bdf8;
-            background-color: #334155;
-            border-bottom-color: #38bdf8;
+            color: var(--neon-green);
+            text-shadow: 0 0 8px rgba(57, 255, 20, 0.6);
+            border-bottom-color: var(--neon-green);
+            background: rgba(57, 255, 20, 0.05);
         }
 
-        /* ── Hero Section ── */
+        .tabs li a:hover::before,
+        .tabs li a:hover::after,
+        .tabs li a.active::before,
+        .tabs li a.active::after {
+            opacity: 1;
+            color: var(--neon-green);
+        }
+
+        /* ── System Header / Hero ── */
+        .system-header {
+            padding: 3rem 2rem 1rem;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .system-readout {
+            font-size: 0.75rem;
+            color: var(--text-dim);
+            margin-bottom: 1rem;
+            letter-spacing: 1px;
+        }
+
+        .system-readout .highlight {
+            color: var(--amber);
+        }
+
+        .system-readout .warn {
+            color: var(--neon-magenta);
+        }
+
         .hero {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            padding: 6rem 2rem;
-            max-width: 800px;
+            padding: 2rem;
+            max-width: 1100px;
             margin: 0 auto;
         }
 
         .hero h1 {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            background: linear-gradient(135deg, #38bdf8, #818cf8);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.8rem;
+            font-weight: 900;
+            color: var(--neon-green);
+            text-shadow: 0 0 20px rgba(57, 255, 20, 0.4), 0 0 40px rgba(57, 255, 20, 0.1);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            position: relative;
+            display: inline-block;
         }
 
-        .hero p {
-            font-size: 1.2rem;
-            color: #94a3b8;
-            line-height: 1.6;
-            max-width: 600px;
+        /* Glitch effect on hero title */
+        .hero h1::before,
+        .hero h1::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .hero h1::before {
+            color: var(--neon-cyan);
+            animation: glitch-1 3s infinite linear alternate-reverse;
+            clip-path: inset(20% 0 60% 0);
+        }
+
+        .hero h1::after {
+            color: var(--neon-magenta);
+            animation: glitch-2 2.5s infinite linear alternate-reverse;
+            clip-path: inset(50% 0 30% 0);
+        }
+
+        @keyframes glitch-1 {
+            0%, 90%, 100% { transform: translate(0); clip-path: inset(20% 0 60% 0); }
+            92% { transform: translate(-3px, 1px); clip-path: inset(10% 0 70% 0); }
+            94% { transform: translate(3px, -1px); clip-path: inset(30% 0 50% 0); }
+            96% { transform: translate(-2px, 2px); clip-path: inset(40% 0 40% 0); }
+        }
+
+        @keyframes glitch-2 {
+            0%, 88%, 100% { transform: translate(0); clip-path: inset(50% 0 30% 0); }
+            90% { transform: translate(3px, -1px); clip-path: inset(60% 0 20% 0); }
+            93% { transform: translate(-3px, 1px); clip-path: inset(40% 0 40% 0); }
+            95% { transform: translate(2px, -2px); clip-path: inset(70% 0 10% 0); }
+        }
+
+        .hero .subtitle {
+            margin-top: 1rem;
+            font-size: 1rem;
+            color: var(--text-mid);
+            letter-spacing: 1px;
+        }
+
+        .hero .subtitle .cursor {
+            display: inline-block;
+            width: 8px;
+            height: 1.1em;
+            background: var(--neon-green);
+            animation: blink 1s step-end infinite;
+            vertical-align: text-bottom;
+        }
+
+        @keyframes blink {
+            50% { opacity: 0; }
+        }
+
+        /* ── Status Bar ── */
+        .status-bar {
+            max-width: 1100px;
+            margin: 0 auto 2rem;
+            padding: 0 2rem;
+            display: flex;
+            gap: 2rem;
+            font-size: 0.75rem;
+            color: var(--text-dim);
+            border-left: 2px solid var(--border-dim);
+            padding-left: 1rem;
+        }
+
+        .status-bar .val {
+            color: var(--neon-cyan);
+        }
+
+        .status-bar .warn-val {
+            color: var(--amber);
         }
 
         /* ── Card Grid ── */
         .cards {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.2rem;
             padding: 2rem;
             max-width: 1100px;
             margin: 0 auto 4rem;
         }
 
         .card {
-            background-color: #1e293b;
-            border: 1px solid #334155;
-            border-radius: 12px;
-            padding: 2rem;
-            text-align: center;
-            transition: transform 0.2s, border-color 0.2s;
+            background: var(--bg-card);
+            border: 1px solid var(--border-dim);
+            padding: 1.8rem 1.5rem;
+            position: relative;
+            transition: all 0.3s;
+            clip-path: polygon(0 0, calc(100% - 15px) 0, 100% 15px, 100% 100%, 15px 100%, 0 calc(100% - 15px));
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--neon-green), transparent);
+            opacity: 0;
+            transition: opacity 0.3s;
         }
 
         .card:hover {
-            transform: translateY(-4px);
-            border-color: #38bdf8;
+            border-color: var(--neon-green);
+            box-shadow: 0 0 15px rgba(57, 255, 20, 0.1), inset 0 0 30px rgba(57, 255, 20, 0.02);
+            transform: translateY(-2px);
         }
 
-        .card .icon {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
+        .card:hover::before {
+            opacity: 1;
+        }
+
+        .card .card-header {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .card .card-icon {
+            font-size: 1.5rem;
+            filter: grayscale(0.3);
         }
 
         .card h3 {
-            margin-bottom: 0.5rem;
-            color: #e2e8f0;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--neon-green);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .card .card-id {
+            font-size: 0.65rem;
+            color: var(--text-dim);
+            margin-bottom: 0.8rem;
+            letter-spacing: 0.5px;
         }
 
         .card p {
-            color: #64748b;
-            font-size: 0.9rem;
+            color: var(--text-mid);
+            font-size: 0.82rem;
+            line-height: 1.5;
             margin-bottom: 1rem;
         }
 
         .card a {
-            color: #38bdf8;
+            color: var(--neon-cyan);
             text-decoration: none;
-            font-weight: 600;
-            font-size: 0.9rem;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: all 0.2s;
+        }
+
+        .card a::before {
+            content: '> ';
+            color: var(--neon-green);
         }
 
         .card a:hover {
-            text-decoration: underline;
+            color: #fff;
+            text-shadow: 0 0 8px rgba(0, 255, 249, 0.5);
+        }
+
+        /* ── Radiation / Warning Decorations ── */
+        .warning-stripe {
+            height: 4px;
+            background: repeating-linear-gradient(
+                90deg,
+                var(--amber) 0px,
+                var(--amber) 10px,
+                transparent 10px,
+                transparent 20px
+            );
+            opacity: 0.4;
+            margin: 0 auto;
+            max-width: 1100px;
         }
 
         /* ── Footer ── */
         footer {
             text-align: center;
             padding: 2rem;
-            color: #475569;
-            font-size: 0.85rem;
-            border-top: 1px solid #1e293b;
+            color: var(--text-dim);
+            font-size: 0.75rem;
+            border-top: 1px solid var(--border-dim);
+            letter-spacing: 1px;
+        }
+
+        footer .footer-line {
+            margin-bottom: 0.5rem;
+        }
+
+        footer .sys-info {
+            color: #2a3a2a;
+            font-size: 0.65rem;
         }
 
         /* ── Mobile ── */
@@ -155,26 +412,35 @@
             nav {
                 flex-direction: column;
                 padding: 0;
+                clip-path: none;
             }
             .tabs {
                 width: 100%;
                 overflow-x: auto;
+                justify-content: flex-start;
             }
             .tabs li a {
-                padding: 1rem 1rem;
+                padding: 0.8rem 0.8rem;
                 white-space: nowrap;
+                font-size: 0.75rem;
             }
             .hero h1 {
-                font-size: 2rem;
+                font-size: 1.6rem;
+            }
+            .status-bar {
+                flex-direction: column;
+                gap: 0.5rem;
             }
         }
     </style>
 </head>
 <body>
 
+    <div class="noise"></div>
+
     <!-- Navigation -->
     <nav>
-        <div class="logo">YourName</div>
+        <div class="logo">YOURNAME</div>
         <ul class="tabs">
             <li><a href="index.html" class="active">Home</a></li>
             <li><a href="eduSoft.html">EduSoft</a></li>
@@ -185,43 +451,83 @@
         </ul>
     </nav>
 
+    <!-- System Readout -->
+    <div class="system-header">
+        <div class="system-readout">
+            <span class="highlight">SYS.BOOT</span> :: OK &nbsp;|&nbsp;
+            <span class="warn">RAD.LVL</span> :: 0.02 mSv/h &nbsp;|&nbsp;
+            <span class="highlight">NET</span> :: LINKED &nbsp;|&nbsp;
+            <span class="warn">ANOMALY</span> :: NONE DETECTED
+        </div>
+    </div>
+
+    <div class="warning-stripe"></div>
+
     <!-- Hero -->
     <section class="hero">
-        <h1>Welcome to My Portfolio</h1>
-        <p>Developer, Researcher, and Entrepreneur. Explore my work across software, research, and business.</p>
+        <h1 data-text="SYSTEM ONLINE">SYSTEM ONLINE</h1>
+        <p class="subtitle">
+            > Accessing portfolio database... <span class="cursor"></span>
+        </p>
     </section>
 
-    <!-- Quick-Link Cards -->
+    <!-- Status Bar -->
+    <div class="status-bar">
+        <span>SECTOR: <span class="val">HOME</span></span>
+        <span>THREAT: <span class="val">NONE</span></span>
+        <span>UPLINK: <span class="warn-val">ACTIVE</span></span>
+        <span>LAST SYNC: <span class="val">2026.09.01</span></span>
+    </div>
+
+    <!-- Card Grid -->
     <section class="cards">
         <div class="card">
-            <div class="icon">🎓</div>
-            <h3>EduSoft</h3>
-            <p>Education-focused software solutions.</p>
-            <a href="eduSoft.html">View →</a>
+            <div class="card-header">
+                <span class="card-icon">☢️</span>
+                <h3>EduSoft</h3>
+            </div>
+            <div class="card-id">NODE.EDU // CLASSIFIED</div>
+            <p>Education-focused software. Building tools for the next generation of specialists.</p>
+            <a href="eduSoft.html">Access Node</a>
         </div>
+
         <div class="card">
-            <div class="icon">🛠️</div>
-            <h3>Projects</h3>
-            <p>Open-source and personal projects.</p>
-            <a href="projects.html">View →</a>
+            <div class="card-header">
+                <span class="card-icon">⚙️</span>
+                <h3>Projects</h3>
+            </div>
+            <div class="card-id">NODE.PJ // PUBLIC</div>
+            <p>Open-source builds, experimental code, and personal engineering projects.</p>
+            <a href="projects.html">Access Node</a>
         </div>
+
         <div class="card">
-            <div class="icon">🔬</div>
-            <h3>Research</h3>
-            <p>Publications and ongoing research.</p>
-            <a href="research.html">View →</a>
+            <div class="card-header">
+                <span class="card-icon">🔬</span>
+                <h3>Research</h3>
+            </div>
+            <div class="card-id">NODE.RSR // RESTRICTED</div>
+            <p>Publications, field notes, and ongoing investigation into anomalous systems.</p>
+            <a href="research.html">Access Node</a>
         </div>
+
         <div class="card">
-            <div class="icon">💼</div>
-            <h3>Business</h3>
-            <p>Entrepreneurial ventures and services.</p>
-            <a href="business.html">View →</a>
+            <div class="card-header">
+                <span class="card-icon">🏭</span>
+                <h3>Business</h3>
+            </div>
+            <div class="card-id">NODE.BIZ // COMMERCIAL</div>
+            <p>Entrepreneurial ventures, services, and trade operations in the zone.</p>
+            <a href="business.html">Access Node</a>
         </div>
     </section>
+
+    <div class="warning-stripe"></div>
 
     <!-- Footer -->
     <footer>
-        &copy; 2026 YourName. All rights reserved.
+        <div class="footer-line">© 2026 YOURNAME — ALL RIGHTS RESERVED IN ALL ZONES</div>
+        <div class="sys-info">TERMINAL v2.7.1 // BUILD 2026.09.01 // ENCRYPTION: AES-256 // LOCATION: [REDACTED]</div>
     </footer>
 
 </body>
