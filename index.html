@@ -279,71 +279,142 @@
         }
 
         /* ── Card Grid ── */
-        <!-- Replace the .card CSS block with this: -->
-<style>
-    .card {
-        background: var(--bg-card);
-        border: 1px solid var(--border-dim);
-        padding: 1.8rem 1.5rem;
-        position: relative;
-        overflow: hidden;
-        transition: all 0.3s;
-        clip-path: polygon(0 0, calc(100% - 15px) 0, 100% 15px, 100% 100%, 15px 100%, 0 calc(100% - 15px));
-    }
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.2rem;
+            padding: 2rem;
+            max-width: 1100px;
+            margin: 0 auto 4rem;
+        }
 
-    /* Background layer — hidden by default, fades in on hover */
-    .card::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        opacity: 0;
-        transition: opacity 0.5s ease;
-        z-index: 0;
-    }
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-dim);
+            padding: 1.8rem 1.5rem;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s;
+            clip-path: polygon(0 0, calc(100% - 15px) 0, 100% 15px, 100% 100%, 15px 100%, 0 calc(100% - 15px));
+        }
 
-    /* Each card gets its own soft placeholder background */
-    .card.edu::before {
-        background: linear-gradient(135deg, rgba(20, 60, 80, 0.95), rgba(30, 90, 70, 0.95));
-        /* Later: replace with background: url('edu-bg.jpg') center/cover; */
-    }
+        /* Background layer — hidden by default, fades in on hover */
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            z-index: 0;
+        }
 
-    .card.proj::before {
-        background: linear-gradient(135deg, rgba(50, 30, 80, 0.95), rgba(20, 50, 90, 0.95));
-        /* Later: replace with background: url('proj-bg.jpg') center/cover; */
-    }
+        /* Each card gets its own soft placeholder background */
+        .card.edu::before {
+            background: linear-gradient(135deg, rgba(20, 60, 80, 0.95), rgba(30, 90, 70, 0.95));
+        }
 
-    .card.res::before {
-        background: linear-gradient(135deg, rgba(60, 20, 50, 0.95), rgba(80, 40, 20, 0.95));
-        /* Later: replace with background: url('res-bg.jpg') center/cover; */
-    }
+        .card.proj::before {
+            background: linear-gradient(135deg, rgba(50, 30, 80, 0.95), rgba(20, 50, 90, 0.95));
+        }
 
-    .card.biz::before {
-        background: linear-gradient(135deg, rgba(20, 50, 50, 0.95), rgba(60, 60, 20, 0.95));
-        /* Later: replace with background: url('biz-bg.jpg') center/cover; */
-    }
+        .card.res::before {
+            background: linear-gradient(135deg, rgba(60, 20, 50, 0.95), rgba(80, 40, 20, 0.95));
+        }
 
-    .card:hover::before {
-        opacity: 1;
-    }
+        .card.biz::before {
+            background: linear-gradient(135deg, rgba(20, 50, 50, 0.95), rgba(60, 60, 20, 0.95));
+        }
 
-    /* Push content above the background layer */
-    .card .card-header,
-    .card .card-id,
-    .card p,
-    .card a {
-        position: relative;
-        z-index: 1;
-    }
+        .card:hover::before {
+            opacity: 1;
+        }
 
-    .card:hover {
-        border-color: var(--neon-green);
-        box-shadow: 0 0 15px rgba(57, 255, 20, 0.1), inset 0 0 30px rgba(57, 255, 20, 0.02);
-        transform: translateY(-2px);
-    }
-</style>   
+        /* Push content above the background layer */
+        .card .card-header,
+        .card .card-id,
+        .card p,
+        .card a {
+            position: relative;
+            z-index: 1;
+        }
+
+        .card:hover {
+            border-color: var(--neon-green);
+            box-shadow: 0 0 15px rgba(57, 255, 20, 0.1), inset 0 0 30px rgba(57, 255, 20, 0.02);
+            transform: translateY(-2px);
+        }
+
+        .card .card-header {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .card .card-icon {
+            font-size: 1.5rem;
+            filter: grayscale(0.3);
+        }
+
+        .card h3 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--neon-green);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .card .card-id {
+            font-size: 0.65rem;
+            color: var(--text-dim);
+            margin-bottom: 0.8rem;
+            letter-spacing: 0.5px;
+        }
+
+        .card p {
+            color: var(--text-mid);
+            font-size: 0.82rem;
+            line-height: 1.5;
+            margin-bottom: 1rem;
+        }
+
+        .card a {
+            color: var(--neon-cyan);
+            text-decoration: none;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: all 0.2s;
+        }
+
+        .card a::before {
+            content: '> ';
+            color: var(--neon-green);
+        }
+
+        .card a:hover {
+            color: #fff;
+            text-shadow: 0 0 8px rgba(0, 255, 249, 0.5);
+        }
+
+        /* ── Radiation / Warning Decorations ── */
+        .warning-stripe {
+            height: 4px;
+            background: repeating-linear-gradient(
+                90deg,
+                var(--amber) 0px,
+                var(--amber) 10px,
+                transparent 10px,
+                transparent 20px
+            );
+            opacity: 0.4;
+            margin: 0 auto;
+            max-width: 1100px;
+        }
 
         /* ── Footer ── */
         footer {
@@ -438,46 +509,46 @@
 
     <!-- Card Grid -->
     <section class="cards">
-    <div class="card edu">
-        <div class="card-header">
-            <span class="card-icon">☢️</span>
-            <h3>EduSoft</h3>
+        <div class="card edu">
+            <div class="card-header">
+                <span class="card-icon">☢️</span>
+                <h3>EduSoft</h3>
+            </div>
+            <div class="card-id">NODE.EDU // CLASSIFIED</div>
+            <p>Education-focused software. Building tools for the next generation of specialists.</p>
+            <a href="eduSoft.html">Access Node</a>
         </div>
-        <div class="card-id">NODE.EDU // CLASSIFIED</div>
-        <p>Education-focused software. Building tools for the next generation of specialists.</p>
-        <a href="eduSoft.html">Access Node</a>
-    </div>
 
-    <div class="card proj">
-        <div class="card-header">
-            <span class="card-icon">⚙️</span>
-            <h3>Projects</h3>
+        <div class="card proj">
+            <div class="card-header">
+                <span class="card-icon">⚙️</span>
+                <h3>Projects</h3>
+            </div>
+            <div class="card-id">NODE.PJ // PUBLIC</div>
+            <p>Open-source builds, experimental code, and personal engineering projects.</p>
+            <a href="projects.html">Access Node</a>
         </div>
-        <div class="card-id">NODE.PJ // PUBLIC</div>
-        <p>Open-source builds, experimental code, and personal engineering projects.</p>
-        <a href="projects.html">Access Node</a>
-    </div>
 
-    <div class="card res">
-        <div class="card-header">
-            <span class="card-icon">🔬</span>
-            <h3>Research</h3>
+        <div class="card res">
+            <div class="card-header">
+                <span class="card-icon">🔬</span>
+                <h3>Research</h3>
+            </div>
+            <div class="card-id">NODE.RSR // RESTRICTED</div>
+            <p>Publications, field notes, and ongoing investigation into anomalous systems.</p>
+            <a href="research.html">Access Node</a>
         </div>
-        <div class="card-id">NODE.RSR // RESTRICTED</div>
-        <p>Publications, field notes, and ongoing investigation into anomalous systems.</p>
-        <a href="research.html">Access Node</a>
-    </div>
 
-    <div class="card biz">
-        <div class="card-header">
-            <span class="card-icon">🏭</span>
-            <h3>Business</h3>
+        <div class="card biz">
+            <div class="card-header">
+                <span class="card-icon">🏭</span>
+                <h3>Business</h3>
+            </div>
+            <div class="card-id">NODE.BIZ // COMMERCIAL</div>
+            <p>Entrepreneurial ventures, services, and trade operations in the zone.</p>
+            <a href="business.html">Access Node</a>
         </div>
-        <div class="card-id">NODE.BIZ // COMMERCIAL</div>
-        <p>Entrepreneurial ventures, services, and trade operations in the zone.</p>
-        <a href="business.html">Access Node</a>
-    </div>
-</section>   
+    </section>
 
     <div class="warning-stripe"></div>
 
