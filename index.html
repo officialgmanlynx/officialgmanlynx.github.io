@@ -4,9 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SYSTEM://PORTFOLIO</title>
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&display=swap');
-
         * {
             margin: 0;
             padding: 0;
@@ -36,7 +35,6 @@
             position: relative;
         }
 
-        /* ── CRT Scanline Overlay ── */
         body::before {
             content: '';
             position: fixed;
@@ -55,7 +53,6 @@
             z-index: 9999;
         }
 
-        /* ── Vignette ── */
         body::after {
             content: '';
             position: fixed;
@@ -68,7 +65,6 @@
             z-index: 9998;
         }
 
-        /* ── Noise / Grain ── */
         .noise {
             position: fixed;
             top: 0;
@@ -81,7 +77,6 @@
             z-index: 9997;
         }
 
-        /* ── Navigation ── */
         nav {
             background: linear-gradient(180deg, #0a0f0a 0%, #060a06 100%);
             border-bottom: 1px solid var(--neon-green);
@@ -107,7 +102,7 @@
         }
 
         .logo::before {
-            content: '⚡ ';
+            content: '\26A1 ';
             color: var(--amber);
         }
 
@@ -132,14 +127,12 @@
 
         .tabs li a::before {
             content: '[ ';
-            color: var(--text-dim);
             opacity: 0;
             transition: opacity 0.2s;
         }
 
         .tabs li a::after {
             content: ' ]';
-            color: var(--text-dim);
             opacity: 0;
             transition: opacity 0.2s;
         }
@@ -160,7 +153,6 @@
             color: var(--neon-green);
         }
 
-        /* ── System Header / Hero ── */
         .system-header {
             padding: 3rem 2rem 1rem;
             max-width: 1100px;
@@ -200,7 +192,6 @@
             display: inline-block;
         }
 
-        /* Glitch effect on hero title */
         .hero h1::before,
         .hero h1::after {
             content: attr(data-text);
@@ -257,7 +248,6 @@
             50% { opacity: 0; }
         }
 
-        /* ── Status Bar ── */
         .status-bar {
             max-width: 1100px;
             margin: 0 auto 2rem;
@@ -278,7 +268,6 @@
             color: var(--amber);
         }
 
-        /* ── Card Grid ── */
         .cards {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -298,7 +287,6 @@
             clip-path: polygon(0 0, calc(100% - 15px) 0, 100% 15px, 100% 100%, 15px 100%, 0 calc(100% - 15px));
         }
 
-        /* Background layer — hidden by default, fades in on hover */
         .card::before {
             content: '';
             position: absolute;
@@ -311,7 +299,6 @@
             z-index: 0;
         }
 
-        /* Each card gets its own soft placeholder background */
         .card.edu::before {
             background: linear-gradient(135deg, rgba(20, 60, 80, 0.95), rgba(30, 90, 70, 0.95));
         }
@@ -332,7 +319,6 @@
             opacity: 1;
         }
 
-        /* Push content above the background layer */
         .card .card-header,
         .card .card-id,
         .card p,
@@ -356,7 +342,6 @@
 
         .card .card-icon {
             font-size: 1.5rem;
-            filter: grayscale(0.3);
         }
 
         .card h3 {
@@ -401,7 +386,6 @@
             text-shadow: 0 0 8px rgba(0, 255, 249, 0.5);
         }
 
-        /* ── Radiation / Warning Decorations ── */
         .warning-stripe {
             height: 4px;
             background: repeating-linear-gradient(
@@ -416,7 +400,6 @@
             max-width: 1100px;
         }
 
-        /* ── Footer ── */
         footer {
             text-align: center;
             padding: 2rem;
@@ -435,7 +418,6 @@
             font-size: 0.65rem;
         }
 
-        /* ── Mobile ── */
         @media (max-width: 768px) {
             nav {
                 flex-direction: column;
@@ -466,7 +448,6 @@
 
     <div class="noise"></div>
 
-    <!-- Navigation -->
     <nav>
         <div class="logo">YOURNAME</div>
         <ul class="tabs">
@@ -479,7 +460,6 @@
         </ul>
     </nav>
 
-    <!-- System Readout -->
     <div class="system-header">
         <div class="system-readout">
             <span class="highlight">SYS.BOOT</span> :: OK &nbsp;|&nbsp;
@@ -491,15 +471,13 @@
 
     <div class="warning-stripe"></div>
 
-    <!-- Hero -->
     <section class="hero">
         <h1 data-text="SYSTEM ONLINE">SYSTEM ONLINE</h1>
         <p class="subtitle">
-            > Accessing portfolio database... <span class="cursor"></span>
+            &gt; Accessing portfolio database... <span class="cursor"></span>
         </p>
     </section>
 
-    <!-- Status Bar -->
     <div class="status-bar">
         <span>SECTOR: <span class="val">HOME</span></span>
         <span>THREAT: <span class="val">NONE</span></span>
@@ -507,11 +485,10 @@
         <span>LAST SYNC: <span class="val">2026.09.01</span></span>
     </div>
 
-    <!-- Card Grid -->
     <section class="cards">
         <div class="card edu">
             <div class="card-header">
-                <span class="card-icon">☢️</span>
+                <span class="card-icon">&#9762;</span>
                 <h3>EduSoft</h3>
             </div>
             <div class="card-id">NODE.EDU // CLASSIFIED</div>
@@ -521,7 +498,7 @@
 
         <div class="card proj">
             <div class="card-header">
-                <span class="card-icon">⚙️</span>
+                <span class="card-icon">&#9881;</span>
                 <h3>Projects</h3>
             </div>
             <div class="card-id">NODE.PJ // PUBLIC</div>
@@ -531,7 +508,7 @@
 
         <div class="card res">
             <div class="card-header">
-                <span class="card-icon">🔬</span>
+                <span class="card-icon">&#128300;</span>
                 <h3>Research</h3>
             </div>
             <div class="card-id">NODE.RSR // RESTRICTED</div>
@@ -541,7 +518,7 @@
 
         <div class="card biz">
             <div class="card-header">
-                <span class="card-icon">🏭</span>
+                <span class="card-icon">&#127981;</span>
                 <h3>Business</h3>
             </div>
             <div class="card-id">NODE.BIZ // COMMERCIAL</div>
@@ -552,9 +529,8 @@
 
     <div class="warning-stripe"></div>
 
-    <!-- Footer -->
     <footer>
-        <div class="footer-line">© 2026 YOURNAME — ALL RIGHTS RESERVED IN ALL ZONES</div>
+        <div class="footer-line">&copy; 2026 YOURNAME — ALL RIGHTS RESERVED IN ALL ZONES</div>
         <div class="sys-info">TERMINAL v2.7.1 // BUILD 2026.09.01 // ENCRYPTION: AES-256 // LOCATION: [REDACTED]</div>
     </footer>
 
