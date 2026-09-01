@@ -18,7 +18,6 @@
             --neon-magenta: #ff00ff;
             --amber: #ffb000;
             --bg-dark: #0a0a0f;
-            --bg-panel: #111118;
             --bg-card: #0d0d14;
             --border-dim: #1a2a1a;
             --text-dim: #4a6a4a;
@@ -33,6 +32,24 @@
             min-height: 100vh;
             overflow-x: hidden;
             position: relative;
+            transition: background-color 0.6s ease;
+        }
+
+        /* ── Full-page background shifts per card hover ── */
+        body.hover-edu {
+            background-color: #0f2a35;
+        }
+
+        body.hover-proj {
+            background-color: #1a1035;
+        }
+
+        body.hover-res {
+            background-color: #2a0f20;
+        }
+
+        body.hover-biz {
+            background-color: #1a2a10;
         }
 
         body::before {
@@ -60,7 +77,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: radial-gradient(ellipse at center, transparent 50%, rgba(0,0,0,0.6) 100%);
+            background: radial-gradient(ellipse at center, transparent 50%, rgba(0,0,0,0.5) 100%);
             pointer-events: none;
             z-index: 9998;
         }
@@ -300,19 +317,19 @@
         }
 
         .card.edu::before {
-            background: linear-gradient(135deg, rgba(20, 60, 80, 0.95), rgba(30, 90, 70, 0.95));
+            background: linear-gradient(135deg, #1a5c7a, #2a8a6a);
         }
 
         .card.proj::before {
-            background: linear-gradient(135deg, rgba(50, 30, 80, 0.95), rgba(20, 50, 90, 0.95));
+            background: linear-gradient(135deg, #5a30a0, #2060c0);
         }
 
         .card.res::before {
-            background: linear-gradient(135deg, rgba(60, 20, 50, 0.95), rgba(80, 40, 20, 0.95));
+            background: linear-gradient(135deg, #8a2060, #a05020);
         }
 
         .card.biz::before {
-            background: linear-gradient(135deg, rgba(20, 50, 50, 0.95), rgba(60, 60, 20, 0.95));
+            background: linear-gradient(135deg, #1a7a7a, #8a8a20);
         }
 
         .card:hover::before {
@@ -486,7 +503,7 @@
     </div>
 
     <section class="cards">
-        <div class="card edu">
+        <div class="card edu" data-bg="hover-edu">
             <div class="card-header">
                 <span class="card-icon">&#9762;</span>
                 <h3>EduSoft</h3>
@@ -496,7 +513,7 @@
             <a href="eduSoft.html">Access Node</a>
         </div>
 
-        <div class="card proj">
+        <div class="card proj" data-bg="hover-proj">
             <div class="card-header">
                 <span class="card-icon">&#9881;</span>
                 <h3>Projects</h3>
@@ -506,7 +523,7 @@
             <a href="projects.html">Access Node</a>
         </div>
 
-        <div class="card res">
+        <div class="card res" data-bg="hover-res">
             <div class="card-header">
                 <span class="card-icon">&#128300;</span>
                 <h3>Research</h3>
@@ -516,7 +533,7 @@
             <a href="research.html">Access Node</a>
         </div>
 
-        <div class="card biz">
+        <div class="card biz" data-bg="hover-biz">
             <div class="card-header">
                 <span class="card-icon">&#127981;</span>
                 <h3>Business</h3>
@@ -530,9 +547,25 @@
     <div class="warning-stripe"></div>
 
     <footer>
-        <div class="footer-line">&copy; 2026 YOURNAME — ALL RIGHTS RESERVED IN ALL ZONES</div>
+        <div class="footer-line">&copy; 2026 YOURNAME &mdash; ALL RIGHTS RESERVED IN ALL ZONES</div>
         <div class="sys-info">TERMINAL v2.7.1 // BUILD 2026.09.01 // ENCRYPTION: AES-256 // LOCATION: [REDACTED]</div>
     </footer>
+
+    <script>
+        const cards = document.querySelectorAll('.card');
+        const allBgClasses = ['hover-edu', 'hover-proj', 'hover-res', 'hover-biz'];
+
+        cards.forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                const target = card.dataset.bg;
+                allBgClasses.forEach(c => document.body.classList.remove(c));
+                document.body.classList.add(target);
+            });
+            card.addEventListener('mouseleave', () => {
+                allBgClasses.forEach(c => document.body.classList.remove(c));
+            });
+        });
+    </script>
 
 </body>
 </html>   
