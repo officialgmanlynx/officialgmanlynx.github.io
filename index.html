@@ -374,6 +374,7 @@
             flex-shrink: 0;
             width: 220px;
             position: relative;
+            margin-bottom: 1.5rem; /* Prevents text overlapping the subtext badge below image */
         }
         .about-img {
             width: 100%;
@@ -422,11 +423,36 @@
             line-height: 1.65;
             margin-bottom: 1rem;
         }
-        .about-content p:last-child {
-            margin-bottom: 0;
-        }
         .about-highlight {
             color: var(--neon-cyan);
+        }
+
+        /* ── LINKEDIN BUTTON STYLE ── */
+        .btn-linkedin {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 1.2rem;
+            padding: 0.6rem 1.2rem;
+            color: var(--bg-dark);
+            background-color: var(--neon-cyan);
+            border: 1px solid var(--neon-cyan);
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+            transition: all 0.25s ease;
+            cursor: pointer;
+        }
+        .btn-linkedin:hover {
+            background-color: var(--neon-green);
+            border-color: var(--neon-green);
+            box-shadow: 0 0 15px rgba(57, 255, 20, 0.6);
+            transform: translateY(-2px);
+            color: #000;
         }
 
         .warning-stripe {
@@ -576,11 +602,10 @@
     <section class="about">
         <div class="about-container">
             <div class="about-img-wrap">
-                <!-- REPLACE the src below with your real image path once uploaded -->
                 <img 
                     src="pictures/Screenshot_20260907_094616.png" 
-                    alt="THIS IS NOT A REAL PERSON — Profile Photo" 
-                    class="THIS IS AN AI GENERATED IMAGE BASED ON A DESCRIPTION OF ME"
+                    alt="Operative Profile Photo" 
+                    class="about-img"
                 >
             </div>
             <div class="about-content">
@@ -589,12 +614,12 @@
                 
                 <p>
                     I’m a computer engineering student planning to move into the field of biotech. I have a diverse work background ranging from five years of service as a combat medic
-                    to underwater welding and shipyard pipeftting of U.S. naval vessel. My academic research interests lay in the fringe topic of wetware, quantum hardware & firmware, 
+                    to underwater welding and shipyard pipefitting of U.S. naval vessels. My academic research interests lay in the fringe topic of wetware, quantum hardware & firmware, 
                     the specific topic within neuroscience & Neuroanatomy of WBE, and astronautical systems. In my personal time I enjoy teaching ESL; organizing a non-profit for the conservation
-                    of endangered wildlife and Biodiversity; playing a coupleinstruments, a seven string clawhammer banjo and a five string clawhammer bango.
+                    of endangered wildlife and Biodiversity; playing a couple instruments, a seven string clawhammer banjo and a five string clawhammer banjo.
                 </p>
                 <p>
-                    Taking notes from the renowned Leonard Susskind I am developing my own unique theoretical minumum based around my academic research interests, hobbies, and work experience.
+                    Taking notes from the renowned Leonard Susskind I am developing my own unique theoretical minimum based around my academic research interests, hobbies, and work experience.
                 </p>
                 <p>
                     Currently exploring the edges of <span class="about-highlight">edtech</span>, 
@@ -602,6 +627,11 @@
                     that don’t fit neatly into any category. Always open to interesting problems and 
                     conversations with people who build things that matter.
                 </p>
+
+                <!-- LINKEDIN LINK / BUTTON -->
+                <a href="https://www.linkedin.com/in/YOUR-LINKEDIN-USERNAME" target="_blank" rel="noopener noreferrer" class="btn-linkedin">
+                    [&#9881; CONNECT ON LINKEDIN]
+                </a>
             </div>
         </div>
     </section>
