@@ -11,7 +11,6 @@
             padding: 0;
             box-sizing: border-box;
         }
-
         :root {
             --neon-green: #39ff14;
             --neon-cyan: #00fff9;
@@ -24,7 +23,6 @@
             --text-mid: #7a9a7a;
             --text-bright: #c0ffc0;
         }
-
         body {
             font-family: 'Share Tech Mono', monospace;
             background-color: var(--bg-dark);
@@ -34,24 +32,19 @@
             position: relative;
             transition: background-color 0.6s ease;
         }
-
         /* ── Full-page background shifts per card hover ── */
         body.hover-edu {
             background-color: #0f2a35;
         }
-
         body.hover-proj {
             background-color: #1a1035;
         }
-
         body.hover-res {
             background-color: #2a0f20;
         }
-
         body.hover-biz {
             background-color: #1a2a10;
         }
-
         body::before {
             content: '';
             position: fixed;
@@ -69,7 +62,6 @@
             pointer-events: none;
             z-index: 9999;
         }
-
         body::after {
             content: '';
             position: fixed;
@@ -81,7 +73,6 @@
             pointer-events: none;
             z-index: 9998;
         }
-
         .noise {
             position: fixed;
             top: 0;
@@ -93,7 +84,6 @@
             pointer-events: none;
             z-index: 9997;
         }
-
         nav {
             background: linear-gradient(180deg, #0a0f0a 0%, #060a06 100%);
             border-bottom: 1px solid var(--neon-green);
@@ -107,7 +97,6 @@
             z-index: 100;
             clip-path: polygon(0 0, 100% 0, 100% calc(100% - 8px), calc(100% - 20px) 100%, 20px 100%, 0 calc(100% - 8px));
         }
-
         .logo {
             font-family: 'Orbitron', sans-serif;
             font-size: 1.3rem;
@@ -117,18 +106,15 @@
             text-shadow: 0 0 10px rgba(57, 255, 20, 0.5);
             letter-spacing: 2px;
         }
-
         .logo::before {
             content: '\26A1 ';
             color: var(--amber);
         }
-
         .tabs {
             display: flex;
             list-style: none;
             gap: 0;
         }
-
         .tabs li a {
             display: block;
             padding: 1.2rem 1.2rem;
@@ -141,19 +127,16 @@
             border-bottom: 2px solid transparent;
             position: relative;
         }
-
         .tabs li a::before {
             content: '[ ';
             opacity: 0;
             transition: opacity 0.2s;
         }
-
         .tabs li a::after {
             content: ' ]';
             opacity: 0;
             transition: opacity 0.2s;
         }
-
         .tabs li a:hover,
         .tabs li a.active {
             color: var(--neon-green);
@@ -161,7 +144,6 @@
             border-bottom-color: var(--neon-green);
             background: rgba(57, 255, 20, 0.05);
         }
-
         .tabs li a:hover::before,
         .tabs li a:hover::after,
         .tabs li a.active::before,
@@ -169,34 +151,28 @@
             opacity: 1;
             color: var(--neon-green);
         }
-
         .system-header {
             padding: 3rem 2rem 1rem;
             max-width: 1100px;
             margin: 0 auto;
         }
-
         .system-readout {
             font-size: 0.75rem;
             color: var(--text-dim);
             margin-bottom: 1rem;
             letter-spacing: 1px;
         }
-
         .system-readout .highlight {
             color: var(--amber);
         }
-
         .system-readout .warn {
             color: var(--neon-magenta);
         }
-
         .hero {
             padding: 2rem;
             max-width: 1100px;
             margin: 0 auto;
         }
-
         .hero h1 {
             font-family: 'Orbitron', sans-serif;
             font-size: 2.8rem;
@@ -208,7 +184,6 @@
             position: relative;
             display: inline-block;
         }
-
         .hero h1::before,
         .hero h1::after {
             content: attr(data-text);
@@ -218,40 +193,34 @@
             width: 100%;
             overflow: hidden;
         }
-
         .hero h1::before {
             color: var(--neon-cyan);
             animation: glitch-1 3s infinite linear alternate-reverse;
             clip-path: inset(20% 0 60% 0);
         }
-
         .hero h1::after {
             color: var(--neon-magenta);
             animation: glitch-2 2.5s infinite linear alternate-reverse;
             clip-path: inset(50% 0 30% 0);
         }
-
         @keyframes glitch-1 {
             0%, 90%, 100% { transform: translate(0); clip-path: inset(20% 0 60% 0); }
             92% { transform: translate(-3px, 1px); clip-path: inset(10% 0 70% 0); }
             94% { transform: translate(3px, -1px); clip-path: inset(30% 0 50% 0); }
             96% { transform: translate(-2px, 2px); clip-path: inset(40% 0 40% 0); }
         }
-
         @keyframes glitch-2 {
             0%, 88%, 100% { transform: translate(0); clip-path: inset(50% 0 30% 0); }
             90% { transform: translate(3px, -1px); clip-path: inset(60% 0 20% 0); }
             93% { transform: translate(-3px, 1px); clip-path: inset(40% 0 40% 0); }
             95% { transform: translate(2px, -2px); clip-path: inset(70% 0 10% 0); }
         }
-
         .hero .subtitle {
             margin-top: 1rem;
             font-size: 1rem;
             color: var(--text-mid);
             letter-spacing: 1px;
         }
-
         .hero .subtitle .cursor {
             display: inline-block;
             width: 8px;
@@ -260,11 +229,9 @@
             animation: blink 1s step-end infinite;
             vertical-align: text-bottom;
         }
-
         @keyframes blink {
             50% { opacity: 0; }
         }
-
         .status-bar {
             max-width: 1100px;
             margin: 0 auto 2rem;
@@ -276,24 +243,20 @@
             border-left: 2px solid var(--border-dim);
             padding-left: 1rem;
         }
-
         .status-bar .val {
             color: var(--neon-cyan);
         }
-
         .status-bar .warn-val {
             color: var(--amber);
         }
-
         .cards {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
             gap: 1.2rem;
             padding: 2rem;
             max-width: 1100px;
-            margin: 0 auto 4rem;
+            margin: 0 auto 2rem;
         }
-
         .card {
             background: var(--bg-card);
             border: 1px solid var(--border-dim);
@@ -303,7 +266,6 @@
             transition: all 0.3s;
             clip-path: polygon(0 0, calc(100% - 15px) 0, 100% 15px, 100% 100%, 15px 100%, 0 calc(100% - 15px));
         }
-
         .card::before {
             content: '';
             position: absolute;
@@ -315,27 +277,21 @@
             transition: opacity 0.5s ease;
             z-index: 0;
         }
-
         .card.edu::before {
             background: linear-gradient(135deg, #1a5c7a, #2a8a6a);
         }
-
         .card.proj::before {
             background: linear-gradient(135deg, #5a30a0, #2060c0);
         }
-
         .card.res::before {
             background: linear-gradient(135deg, #8a2060, #a05020);
         }
-
         .card.biz::before {
             background: linear-gradient(135deg, #1a7a7a, #8a8a20);
         }
-
         .card:hover::before {
             opacity: 1;
         }
-
         .card .card-header,
         .card .card-id,
         .card p,
@@ -343,24 +299,20 @@
             position: relative;
             z-index: 1;
         }
-
         .card:hover {
             border-color: var(--neon-green);
             box-shadow: 0 0 15px rgba(57, 255, 20, 0.1), inset 0 0 30px rgba(57, 255, 20, 0.02);
             transform: translateY(-2px);
         }
-
         .card .card-header {
             display: flex;
             align-items: center;
             gap: 0.6rem;
             margin-bottom: 0.8rem;
         }
-
         .card .card-icon {
             font-size: 1.5rem;
         }
-
         .card h3 {
             font-family: 'Orbitron', sans-serif;
             font-size: 0.95rem;
@@ -369,21 +321,18 @@
             text-transform: uppercase;
             letter-spacing: 1px;
         }
-
         .card .card-id {
             font-size: 0.65rem;
             color: var(--text-dim);
             margin-bottom: 0.8rem;
             letter-spacing: 0.5px;
         }
-
         .card p {
             color: var(--text-mid);
             font-size: 0.82rem;
             line-height: 1.5;
             margin-bottom: 1rem;
         }
-
         .card a {
             color: var(--neon-cyan);
             text-decoration: none;
@@ -392,15 +341,92 @@
             text-transform: uppercase;
             transition: all 0.2s;
         }
-
         .card a::before {
             content: '> ';
             color: var(--neon-green);
         }
-
         .card a:hover {
             color: #fff;
             text-shadow: 0 0 8px rgba(0, 255, 249, 0.5);
+        }
+
+        /* ── ABOUT SECTION ── */
+        .about {
+            max-width: 1100px;
+            margin: 0 auto 3rem;
+            padding: 0 2rem;
+        }
+        .about-container {
+            display: flex;
+            gap: 2.5rem;
+            align-items: flex-start;
+            background: var(--bg-card);
+            border: 1px solid var(--border-dim);
+            padding: 2rem;
+            clip-path: polygon(0 0, calc(100% - 18px) 0, 100% 18px, 100% 100%, 18px 100%, 0 calc(100% - 18px));
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+        .about-container:hover {
+            border-color: var(--neon-green);
+            box-shadow: 0 0 20px rgba(57, 255, 20, 0.08);
+        }
+        .about-img-wrap {
+            flex-shrink: 0;
+            width: 220px;
+            position: relative;
+        }
+        .about-img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            border: 1px solid var(--border-dim);
+            display: block;
+            filter: grayscale(20%) contrast(1.05);
+            transition: filter 0.3s, border-color 0.3s;
+        }
+        .about-container:hover .about-img {
+            filter: grayscale(0%) contrast(1.1);
+            border-color: var(--neon-green);
+        }
+        .about-img-wrap::after {
+            content: 'ID.PHOTO // VERIFIED';
+            position: absolute;
+            bottom: -1.4rem;
+            left: 0;
+            font-size: 0.6rem;
+            color: var(--text-dim);
+            letter-spacing: 1px;
+        }
+        .about-content {
+            flex: 1;
+            min-width: 0;
+        }
+        .about-content h2 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--neon-green);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 0.4rem;
+        }
+        .about-id {
+            font-size: 0.65rem;
+            color: var(--text-dim);
+            margin-bottom: 1.2rem;
+            letter-spacing: 0.5px;
+        }
+        .about-content p {
+            color: var(--text-mid);
+            font-size: 0.88rem;
+            line-height: 1.65;
+            margin-bottom: 1rem;
+        }
+        .about-content p:last-child {
+            margin-bottom: 0;
+        }
+        .about-highlight {
+            color: var(--neon-cyan);
         }
 
         .warning-stripe {
@@ -416,7 +442,6 @@
             margin: 0 auto;
             max-width: 1100px;
         }
-
         footer {
             text-align: center;
             padding: 2rem;
@@ -425,16 +450,13 @@
             border-top: 1px solid var(--border-dim);
             letter-spacing: 1px;
         }
-
         footer .footer-line {
             margin-bottom: 0.5rem;
         }
-
         footer .sys-info {
             color: #2a3a2a;
             font-size: 0.65rem;
         }
-
         @media (max-width: 768px) {
             nav {
                 flex-direction: column;
@@ -458,15 +480,29 @@
                 flex-direction: column;
                 gap: 0.5rem;
             }
+            .about-container {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+            .about-img-wrap {
+                width: 180px;
+            }
+            .about-img {
+                height: 180px;
+            }
+            .about-img-wrap::after {
+                left: 50%;
+                transform: translateX(-50%);
+                white-space: nowrap;
+            }
         }
     </style>
 </head>
 <body>
-
     <div class="noise"></div>
-
     <nav>
-        <div class="logo">YOURNAME</div>
+        <div class="logo">Quantum Teach ^ Pi</div>
         <ul class="tabs">
             <li><a href="index.html" class="active">Home</a></li>
             <li><a href="eduSoft.html">EduSoft</a></li>
@@ -476,7 +512,6 @@
             <li><a href="about.html">About</a></li>
         </ul>
     </nav>
-
     <div class="system-header">
         <div class="system-readout">
             <span class="highlight">SYS.BOOT</span> :: OK &nbsp;|&nbsp;
@@ -485,23 +520,19 @@
             <span class="warn">ANOMALY</span> :: NONE DETECTED
         </div>
     </div>
-
     <div class="warning-stripe"></div>
-
     <section class="hero">
         <h1 data-text="SYSTEM ONLINE">SYSTEM ONLINE</h1>
         <p class="subtitle">
             &gt; Accessing portfolio database... <span class="cursor"></span>
         </p>
     </section>
-
     <div class="status-bar">
         <span>SECTOR: <span class="val">HOME</span></span>
         <span>THREAT: <span class="val">NONE</span></span>
         <span>UPLINK: <span class="warn-val">ACTIVE</span></span>
         <span>LAST SYNC: <span class="val">2026.09.01</span></span>
     </div>
-
     <section class="cards">
         <div class="card edu" data-bg="hover-edu">
             <div class="card-header">
@@ -512,7 +543,6 @@
             <p>Education-focused software. Building tools for the next generation of specialists.</p>
             <a href="eduSoft.html">Access Node</a>
         </div>
-
         <div class="card proj" data-bg="hover-proj">
             <div class="card-header">
                 <span class="card-icon">&#9881;</span>
@@ -522,7 +552,6 @@
             <p>Open-source builds, experimental code, and personal engineering projects.</p>
             <a href="projects.html">Access Node</a>
         </div>
-
         <div class="card res" data-bg="hover-res">
             <div class="card-header">
                 <span class="card-icon">&#128300;</span>
@@ -532,7 +561,6 @@
             <p>Publications, field notes, and ongoing investigation into anomalous systems.</p>
             <a href="research.html">Access Node</a>
         </div>
-
         <div class="card biz" data-bg="hover-biz">
             <div class="card-header">
                 <span class="card-icon">&#127981;</span>
@@ -544,17 +572,49 @@
         </div>
     </section>
 
-    <div class="warning-stripe"></div>
+    <!-- ── ABOUT ME SECTION ── -->
+    <section class="about">
+        <div class="about-container">
+            <div class="about-img-wrap">
+                <!-- REPLACE the src below with your real image path once uploaded -->
+                <img 
+                    src="https://via.placeholder.com/400x400/0d0d14/39ff14?text=YOUR+PHOTO" 
+                    alt="YOURNAME — Profile Photo" 
+                    class="about-img"
+                >
+            </div>
+            <div class="about-content">
+                <h2>About // Operative Profile</h2>
+                <div class="about-id">NODE.BIO // PUBLIC RECORD</div>
+                
+                <p>
+                    I’m a builder who lives at the intersection of software, education, and systems thinking. 
+                    My work focuses on creating tools that help people learn faster, ship cleaner code, and 
+                    understand complex systems without the noise.
+                </p>
+                <p>
+                    Over the past several years I’ve shipped education platforms, open-source utilities, 
+                    and experimental research into how people interact with technical systems. I care about 
+                    clarity, long-term maintainability, and products that still feel useful five years later.
+                </p>
+                <p>
+                    Currently exploring the edges of <span class="about-highlight">edtech</span>, 
+                    <span class="about-highlight">developer tooling</span>, and a few quieter side projects 
+                    that don’t fit neatly into any category. Always open to interesting problems and 
+                    conversations with people who build things that matter.
+                </p>
+            </div>
+        </div>
+    </section>
 
+    <div class="warning-stripe"></div>
     <footer>
-        <div class="footer-line">&copy; 2026 YOURNAME &mdash; ALL RIGHTS RESERVED IN ALL ZONES</div>
+        <div class="footer-line">&copy; 2026 Taylor Schaefer &mdash; ALL RIGHTS RESERVED IN ALL ZONES</div>
         <div class="sys-info">TERMINAL v2.7.1 // BUILD 2026.09.01 // ENCRYPTION: AES-256 // LOCATION: [REDACTED]</div>
     </footer>
-
     <script>
         const cards = document.querySelectorAll('.card');
         const allBgClasses = ['hover-edu', 'hover-proj', 'hover-res', 'hover-biz'];
-
         cards.forEach(card => {
             card.addEventListener('mouseenter', () => {
                 const target = card.dataset.bg;
@@ -566,6 +626,5 @@
             });
         });
     </script>
-
 </body>
-</html>   
+</html>
